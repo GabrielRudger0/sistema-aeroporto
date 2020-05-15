@@ -1,5 +1,6 @@
 package br.sc.senac.aeroporto;
 
+<<<<<<< HEAD
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -53,4 +54,18 @@ public class PassengerController {
 		return passengerEntity.getPassengerId();
 	}
 
+=======
+import br.sc.senac.aeroporto.PassengerDTO;
+import br.sc.senac.aeroporto.PassengerEntity;
+
+public class PassengerController {
+
+
+
+private static void updateEntityFromDTO(final PassengerDTO PassengerDTO, final PassengerEntity PassengerEntity) {
+	PassengerEntity.setName(PassengerDTO.getName());
+	PassengerEntity.setEmail(PassengerDTO.getEmail());
+	PassengerEntity.setDate(PassengerDTO.getBirthDate());
+}
+>>>>>>> 60adc6a93cd61cd7ada7aff13e14c8a3f63cb9d8
 }

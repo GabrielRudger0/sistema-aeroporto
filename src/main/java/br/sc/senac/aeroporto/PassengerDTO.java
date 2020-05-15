@@ -32,4 +32,17 @@ public class PassengerDTO {
 	public String getEmail() {
 		return email;
 	}
+<<<<<<< HEAD
+=======
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+
+>>>>>>> 60adc6a93cd61cd7ada7aff13e14c8a3f63cb9d8
 }

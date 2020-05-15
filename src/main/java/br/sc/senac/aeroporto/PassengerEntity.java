@@ -36,7 +36,11 @@ final class PassengerEntity implements Serializable {
 		return "PassengerEntity [PassengerId=" + this.PassengerId + ", name=" + this.name + ", date=" + this.date + ", email=" + this.email + "]";
 	}
 	
+<<<<<<< HEAD
 	public Long getPassengerId() {
+=======
+	public Long getClientId() {
+>>>>>>> 60adc6a93cd61cd7ada7aff13e14c8a3f63cb9d8
 		return this.PassengerId;
 	}
 
