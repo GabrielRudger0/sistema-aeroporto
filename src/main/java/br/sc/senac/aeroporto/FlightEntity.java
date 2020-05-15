@@ -1,64 +1,66 @@
 package br.sc.senac.aeroporto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity(name = "Flight")
-final class FlightEntity implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-	
+final class FlightEntity implements Serializable {
+
+	private static final long serialVersionUID = 8177572400344866171L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long flightId;
 	
-	private PassengerDTO passenger;
-	
-	private String airline;
-	
-	private String date_departure;
-	
-	private String date_back;
-	
-	private String destination;
-	
-	protected FlightEntity() {
-	}
-	
-	public FlightEntity(final PassengerDTO passenger, final String airline, final String date_departure,
-			final String date_back, final String destination) {
+	@ManyToMany
+	private final List<PassengerEntity> passengers;
 
-		this.passenger = passenger;
+	private String airline;
+
+	private String date_departure;
+
+	private String date_back;
+
+	private String destination;
+
+	protected FlightEntity() {
+		this.passengers = null;
+	}
+
+	public FlightEntity(final String airline, final String date_departure, final String date_back,
+			final String destination) {
+
+		this.passengers = null;
 		this.airline = airline;
 		this.date_departure = date_departure;
 		this.date_back = date_back;
 		this.destination = destination;
 
 	}
-	
+
 	@Override
 	public String toString() {
-		return "FlightEntity [FlightId=" + this.flightId + ", passenger=" + this.passenger + ", airlane=" + this.airline
-				+ ", date departure=" + this.date_departure + ", date back =" + this.date_back + ", destination="
-				+ this.destination + "]";
+		return "FlightEntity [Flight Id=" + this.flightId + ", airlane=" + this.airline + ", date departure="
+				+ this.date_departure + ", date back =" + this.date_back + ", destination=" + this.destination + "]";
 	}
 
 	public Long getFlightId() {
 		return this.flightId;
 	}
-
-	public PassengerDTO getPassenger() {
-		return this.passenger;
+	
+	public List<PassengerEntity> getPassengers() {
+		return passengers;
 	}
-
-	public void setPassenger(final PassengerDTO passenger) {
-		if (passenger != null) {
-			this.passenger = passenger;
-		}
+	
+	public List<PassengerEntity> addPassengers(PassengerEntity passenger) {
+		this.passengers.add(passenger);
+		return passengers;
 	}
 
 	public String getAirline() {
