@@ -1,6 +1,7 @@
 package br.sc.senac.aeroporto;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/flight")
-
 public class FlightService {
-	
+
 	private static FlightDTO[] DEFAULT_FLIGHTS = new FlightDTO[] {
-		new FlightDTO(FlightDTO.NULL_PASSENGER,"British Airways", "22/12/2020", "03/01/2021", "London, UK"),
-		new FlightDTO(FlightDTO.NULL_PASSENGER,"TAM", "23/12/2020", "04/01/2021", "São Paulo, Brazil"),
-		new FlightDTO(FlightDTO.NULL_PASSENGER,"American AirLines", "21/12/2020", "05/01/2021", "New York, USA")
-	};
+			new FlightDTO(Long.valueOf(0), "British Airways", "22/12/2020", "03/01/2021", "London, UK", null),
+			new FlightDTO(Long.valueOf(0), "TAM", "23/12/2020", "04/01/2021", "São Paulo, Brazil", null),
+			new FlightDTO(Long.valueOf(0), "American AirLines", "21/12/2020", "05/01/2021", "New York, USA", null) 
+			};
 
 	private final FlightController flightController;
 
 	FlightService(final FlightController flightController) {
 		this.flightController = flightController;
 		Arrays.asList(FlightService.DEFAULT_FLIGHTS).forEach(dto -> this.flightController.insertFlight(dto));
+	}
+
+	@GetMapping("/list")
+	public List<FlightDTO> List() {
+		return this.flightController.getAllFlights();
 	}
 
 	@GetMapping("/registerinflight/passenger/{flightId}/{passengerId}")
@@ -37,8 +42,8 @@ public class FlightService {
 		}
 		return new ResponseEntity<>(flight, HttpStatus.OK);
 	}
-	
-	@PostMapping
+
+	@PostMapping("/addflight")
 	public Long insertFlight(@RequestBody final FlightDTO flight) {
 		return this.flightController.insertFlight(flight);
 	}

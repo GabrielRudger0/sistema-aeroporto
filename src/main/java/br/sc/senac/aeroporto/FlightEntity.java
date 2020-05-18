@@ -19,7 +19,7 @@ final class FlightEntity implements Serializable {
 	private Long flightId;
 	
 	@ManyToMany
-	private final List<PassengerEntity> passengers;
+	private List<PassengerEntity> passengers;
 
 	private String airline;
 
@@ -30,24 +30,22 @@ final class FlightEntity implements Serializable {
 	private String destination;
 
 	protected FlightEntity() {
-		this.passengers = null;
 	}
 
 	public FlightEntity(final String airline, final String date_departure, final String date_back,
-			final String destination) {
+			final String destination, final List<PassengerEntity> passengers) {
 
-		this.passengers = null;
 		this.airline = airline;
 		this.date_departure = date_departure;
 		this.date_back = date_back;
 		this.destination = destination;
-
+		this.passengers = passengers;
 	}
 
 	@Override
 	public String toString() {
 		return "FlightEntity [Flight Id=" + this.flightId + ", airlane=" + this.airline + ", date departure="
-				+ this.date_departure + ", date back =" + this.date_back + ", destination=" + this.destination + "]";
+				+ this.date_departure + ", date back =" + this.date_back + ", destination=" + this.destination + ", passengers=" + this.passengers + "]";
 	}
 
 	public Long getFlightId() {

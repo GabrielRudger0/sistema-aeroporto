@@ -17,27 +17,23 @@ public class FlightController {
 		this.passengerRepository = passengerRepository;
 	}
 
-	private static void updateEntityFromDTO(final FlightDTO flightDTO, final FlightEntity flightEntity) {
-		flightEntity.setAirline(flightDTO.getAirline());
-		flightEntity.setDestination(flightDTO.getDestination());
-		flightEntity.setDate_departure(flightDTO.getDate_departure());
-		flightEntity.setDate_back(flightDTO.getDate_back());
-	}
-	
 	private static FlightEntity toEntity(final FlightDTO flightDTO) {
 		final String airline = flightDTO.getAirline();
+		final List<PassengerEntity> passengers = flightDTO.getPassengers();
 		final String date_departure = flightDTO.getDate_departure();
 		final String date_back = flightDTO.getDate_back();
 		final String destination = flightDTO.getDestination();
-		return new FlightEntity(airline, date_departure, date_back, destination);
+		return new FlightEntity(airline, date_departure, date_back, destination, passengers);
 	}
 
 	private static FlightDTO toDTO(final FlightEntity FlightEntity) {
+		final Long id = FlightEntity.getFlightId();
+		final List<PassengerEntity> passengers = FlightEntity.getPassengers();
 		final String airline = FlightEntity.getAirline();
 		final String destination = FlightEntity.getDestination();
 		final String date_departure = FlightEntity.getDate_departure();
 		final String date_back = FlightEntity.getDate_back();
-		return new FlightDTO(FlightDTO.NULL_PASSENGER,airline, destination, date_departure, date_back);
+		return new FlightDTO(id,airline, destination, date_departure, date_back, passengers);
 	}
 
 	List<FlightDTO> getAllFlights() {

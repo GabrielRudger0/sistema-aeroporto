@@ -38,7 +38,6 @@ final class PassengerEntity implements Serializable {
 	}
 
 	public Long getPassengerId() {
-
 		return this.PassengerId;
 	}
 

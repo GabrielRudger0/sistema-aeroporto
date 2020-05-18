@@ -1,5 +1,7 @@
 package br.sc.senac.aeroporto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
@@ -16,12 +18,6 @@ public class PassengerController {
 		this.passengerRepository = passengerRepository;
 	}
 
-	private static void updateEntityFromDTO(final PassengerDTO PassengerDTO, final PassengerEntity PassengerEntity) {
-		PassengerEntity.setName(PassengerDTO.getName());
-		PassengerEntity.setEmail(PassengerDTO.getEmail());
-		PassengerEntity.setDate(PassengerDTO.getBirthDate());
-	}
-
 	private static PassengerEntity toEntity(final PassengerDTO passengerDTO) {
 		final String name = passengerDTO.getName();
 		final String email = passengerDTO.getEmail();
@@ -35,6 +31,17 @@ public class PassengerController {
 		final String date = passengerEntity.getDate();
 		final String email = passengerEntity.getEmail();
 		return new PassengerDTO(id, name, date, email);
+	}
+	
+	List<PassengerDTO> getAllPassengers() {
+		final List<PassengerDTO> passengers = new ArrayList<>();
+		
+		final Iterable<PassengerEntity> entities = this.passengerRepository.findAll();
+		for (final PassengerEntity PassengerEntity : entities) {
+		PassengerDTO PassengerDTO = PassengerController.toDTO(PassengerEntity);
+		passengers.add(PassengerDTO);
+		}
+		return passengers;
 	}
 
 	public PassengerDTO getPassenger(final Long id) {

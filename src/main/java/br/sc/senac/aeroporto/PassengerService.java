@@ -1,7 +1,9 @@
 package br.sc.senac.aeroporto;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,11 @@ public class PassengerService {
 	PassengerService(final PassengerController passengerController) {
 		this.passengerController = passengerController;
 		Arrays.asList(PassengerService.passengers).forEach(dto -> this.passengerController.insertPassenger(dto));
+	}
+	
+	@GetMapping("list")
+	public List<PassengerDTO> list() {
+		return passengerController.getAllPassengers();
 	}
 	
 	@PostMapping("/addpassenger")
