@@ -3,20 +3,20 @@ package br.sc.senac.aeroporto;
 public class PassengerDTO {
 
 	public static final PassengerDTO NULL_VALUE = new PassengerDTO(Long.valueOf(0), "", "", "");
-	
+
 	private final Long id;
 	private final String name;
 	private final String birth_date;
 	private final String email;
 
-	public PassengerDTO(final Long id,final String name, final String birth_date, final String email) {
+	public PassengerDTO(final Long id, final String name, final String birth_date, final String email) {
 
 		this.id = id;
 		this.name = name;
 		this.birth_date = birth_date;
 		this.email = email;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -32,17 +32,4 @@ public class PassengerDTO {
 	public String getEmail() {
 		return email;
 	}
-<<<<<<< HEAD
-=======
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-
->>>>>>> 60adc6a93cd61cd7ada7aff13e14c8a3f63cb9d8
 }

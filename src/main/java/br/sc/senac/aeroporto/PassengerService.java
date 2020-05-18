@@ -14,17 +14,17 @@ public class PassengerService {
 	private static PassengerDTO[] passengers = new PassengerDTO[] {
 			new PassengerDTO(Long.valueOf(0), "John", "07/03/1992", "john@gmail.com"),
 			new PassengerDTO(Long.valueOf(0), "Stone", "14/06/1994", "Stone@gmail.com"),
-			new PassengerDTO(Long.valueOf(0), "Clone", "21/12/1996", "Clone@gmail.com")
+			new PassengerDTO(Long.valueOf(0), "Clone", "21/12/1996", "Clone@gmail.com"),
 	};
 	
 	private final PassengerController passengerController;
 	
-	public PassengerService(final PassengerController passengerController) {
+	PassengerService(final PassengerController passengerController) {
 		this.passengerController = passengerController;
 		Arrays.asList(PassengerService.passengers).forEach(dto -> this.passengerController.insertPassenger(dto));
 	}
 	
-	@PostMapping
+	@PostMapping("/addpassenger")
 	public Long insertPassenger(@RequestBody final PassengerDTO passenger) {
 		return this.passengerController.insertPassenger(passenger);
 	}
