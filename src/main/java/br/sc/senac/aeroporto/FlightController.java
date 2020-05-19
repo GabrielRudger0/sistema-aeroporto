@@ -19,21 +19,19 @@ public class FlightController {
 
 	private static FlightEntity toEntity(final FlightDTO flightDTO) {
 		final String airline = flightDTO.getAirline();
-		final List<PassengerEntity> passengers = flightDTO.getPassengers();
 		final String date_departure = flightDTO.getDate_departure();
 		final String date_back = flightDTO.getDate_back();
 		final String destination = flightDTO.getDestination();
-		return new FlightEntity(airline, date_departure, date_back, destination, passengers);
+		return new FlightEntity(airline, date_departure, date_back, destination);
 	}
 
 	private static FlightDTO toDTO(final FlightEntity FlightEntity) {
 		final Long id = FlightEntity.getFlightId();
-		final List<PassengerEntity> passengers = FlightEntity.getPassengers();
 		final String airline = FlightEntity.getAirline();
 		final String destination = FlightEntity.getDestination();
 		final String date_departure = FlightEntity.getDate_departure();
 		final String date_back = FlightEntity.getDate_back();
-		return new FlightDTO(id,airline, destination, date_departure, date_back, passengers);
+		return new FlightDTO(id,airline, destination, date_departure, date_back);
 	}
 
 	List<FlightDTO> getAllFlights() {
@@ -61,7 +59,6 @@ public class FlightController {
 			final FlightEntity flightEntity = optionalFlight.get();
 			this.flightRepository.delete(flightEntity);
 			return FlightController.toDTO(flightEntity);
-
 		}
 		return FlightDTO.NULL_VALUE;
 	}

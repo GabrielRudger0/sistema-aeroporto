@@ -33,13 +33,12 @@ final class FlightEntity implements Serializable {
 	}
 
 	public FlightEntity(final String airline, final String date_departure, final String date_back,
-			final String destination, final List<PassengerEntity> passengers) {
+			final String destination) {
 
 		this.airline = airline;
 		this.date_departure = date_departure;
 		this.date_back = date_back;
 		this.destination = destination;
-		this.passengers = passengers;
 	}
 
 	@Override
