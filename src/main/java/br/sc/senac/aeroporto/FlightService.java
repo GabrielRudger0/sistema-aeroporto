@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class FlightService {
 	private static FlightDTO[] DEFAULT_FLIGHTS = new FlightDTO[] {
 			new FlightDTO(Long.valueOf(0), "British Airways", "22/12/2020", "03/01/2021", "London, UK", null),
 			new FlightDTO(Long.valueOf(0), "TAM", "23/12/2020", "04/01/2021", "São Paulo, Brazil", null),
-			new FlightDTO(Long.valueOf(0), "American AirLines", "21/12/2020", "05/01/2021", "New York, USA", null) 
+			new FlightDTO(Long.valueOf(0), "American AirLines", "21/12/2020", "05/01/2021", "New York, USA", null), 
 			};
 
 	private final FlightController flightController;
@@ -32,6 +33,24 @@ public class FlightService {
 	@GetMapping("/list")
 	public List<FlightDTO> List() {
 		return this.flightController.getAllFlights();
+	}
+	
+	@GetMapping("/{id}/details")
+	public ResponseEntity<FlightDTO> getFlight(@PathVariable final Long id) {
+		final FlightDTO flight = this.flightController.getFlight(id);
+		if (flight.equals(FlightDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<FlightDTO>(flight, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<FlightDTO> removeFlight(@PathVariable final Long id) {
+		final FlightDTO removeFlight = this.flightController.removeFlight(id);
+		if (removeFlight.equals(FlightDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<FlightDTO>(removeFlight, HttpStatus.OK);
 	}
 
 	@GetMapping("/registerinflight/passenger/{flightId}/{passengerId}")

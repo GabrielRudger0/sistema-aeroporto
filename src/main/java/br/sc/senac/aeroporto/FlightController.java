@@ -46,17 +46,36 @@ public class FlightController {
 		}
 		return flights;
 	}
+	
+	FlightDTO getFlight(final Long id) {
+		final Optional<FlightEntity> optionalFlight = this.flightRepository.findById(id);
+		if (optionalFlight.isPresent()) {
+			return FlightController.toDTO(optionalFlight.get());
+		}
+		return FlightDTO.NULL_VALUE;
+	}
+	
+	FlightDTO removeFlight(final Long id) {
+		final Optional<FlightEntity> optionalFlight = this.flightRepository.findById(id);
+		if (optionalFlight.isPresent()) {
+			final FlightEntity flightEntity = optionalFlight.get();
+			this.flightRepository.delete(flightEntity);
+			return FlightController.toDTO(flightEntity);
+
+		}
+		return FlightDTO.NULL_VALUE;
+	}
 
 	FlightDTO registerPassengerOnAFlight(final Long flightId, final Long passengerId) {
 		final Optional<FlightEntity> optionalFlight = this.flightRepository.findById(flightId);
 		final Optional<PassengerEntity> optionalPassenge = this.passengerRepository.findById(passengerId);
-		
-				
+			
 		if (optionalFlight.isPresent()) {
 			if (optionalPassenge.isPresent()) {
 			PassengerEntity passengerEntity = optionalPassenge.get();
 			FlightEntity flightEntity = optionalFlight.get();
 			flightEntity.addPassengers(passengerEntity);
+			this.flightRepository.save(flightEntity);
 			return FlightController.toDTO(flightEntity);
 			}
 		}

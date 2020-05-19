@@ -19,7 +19,7 @@ public class FlightDTO {
 		this.flightId = flightId;
 		this.airline = airline;
 		this.date_departure = date_departure;
-		this.date_back = date_departure;
+		this.date_back = date_back;
 		this.destination = destination;
 		this.passengers = passengers;
 	}
