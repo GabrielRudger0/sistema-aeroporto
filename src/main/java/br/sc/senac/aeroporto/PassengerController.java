@@ -43,14 +43,12 @@ public class PassengerController {
 		}
 		return passengers;
 	}
-
-	public PassengerDTO getPassenger(final Long id) {
-		final Optional<PassengerEntity> optionalPassenge = this.passengerRepository.findById(id);
-		if (optionalPassenge.isPresent()) {
-			PassengerEntity passengerEntity = optionalPassenge.get();
-			return PassengerController.toDTO(passengerEntity);
+	
+	PassengerDTO getPassenger(final Long id) {
+		final Optional<PassengerEntity> optionalPassenger = this.passengerRepository.findById(id);
+		if (optionalPassenger.isPresent()) {
+			return PassengerController.toDTO(optionalPassenger.get());
 		}
-
 		return PassengerDTO.NULL_VALUE;
 	}
 
