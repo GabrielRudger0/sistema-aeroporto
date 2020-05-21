@@ -19,19 +19,21 @@ public class FlightController {
 
 	private static FlightEntity toEntity(final FlightDTO flightDTO) {
 		final String airline = flightDTO.getAirline();
+		final List<PassengerEntity> passengers = flightDTO.getPassengers();
 		final String date_departure = flightDTO.getDate_departure();
 		final String date_back = flightDTO.getDate_back();
 		final String destination = flightDTO.getDestination();
-		return new FlightEntity(airline, date_departure, date_back, destination);
+		return new FlightEntity(airline, date_departure, date_back, destination, passengers);
 	}
 
-	private static FlightDTO toDTO(final FlightEntity FlightEntity) {
-		final Long id = FlightEntity.getFlightId();
-		final String airline = FlightEntity.getAirline();
-		final String destination = FlightEntity.getDestination();
-		final String date_departure = FlightEntity.getDate_departure();
-		final String date_back = FlightEntity.getDate_back();
-		return new FlightDTO(id,airline, destination, date_departure, date_back);
+	private static FlightDTO toDTO(final FlightEntity flightEntity) {
+		final Long id = flightEntity.getFlightId();
+		final String airline = flightEntity.getAirline();
+		final List<PassengerEntity> passengers = flightEntity.getPassengers();
+		final String destination = flightEntity.getDestination();
+		final String date_departure = flightEntity.getDate_departure();
+		final String date_back = flightEntity.getDate_back();
+		return new FlightDTO(id,airline, destination, date_departure, date_back, passengers);
 	}
 
 	List<FlightDTO> getAllFlights() {
@@ -62,18 +64,32 @@ public class FlightController {
 		}
 		return FlightDTO.NULL_VALUE;
 	}
+	
+	FlightDTO removePassengerFromFlight(final Long flightId, final Long passengerId) {
+		final Optional<FlightEntity> optionalFlight = this.flightRepository.findById(flightId);
+		final Optional<PassengerEntity> optionalPassenger = this.passengerRepository.findById(passengerId);
+		
+		if (optionalFlight.isPresent() && optionalPassenger.isPresent()) {
+			FlightEntity flightEntity = optionalFlight.get();
+			PassengerEntity passengerEntity = optionalPassenger.get();
+			flightEntity.removePassenger(passengerEntity);
+			this.flightRepository.save(flightEntity);
+			return FlightController.toDTO(flightEntity);
+		}
+		return FlightDTO.NULL_VALUE;
+	}
 
 	FlightDTO registerPassengerOnAFlight(final Long flightId, final Long passengerId) {
 		final Optional<FlightEntity> optionalFlight = this.flightRepository.findById(flightId);
-		final Optional<PassengerEntity> optionalPassenge = this.passengerRepository.findById(passengerId);
-			
+		final Optional<PassengerEntity> optionalPassenger = this.passengerRepository.findById(passengerId);
+
 		if (optionalFlight.isPresent()) {
-			if (optionalPassenge.isPresent()) {
-			PassengerEntity passengerEntity = optionalPassenge.get();
-			FlightEntity flightEntity = optionalFlight.get();
-			flightEntity.addPassengers(passengerEntity);
-			this.flightRepository.save(flightEntity);
-			return FlightController.toDTO(flightEntity);
+			if (optionalPassenger.isPresent()) {
+				PassengerEntity passengerEntity = optionalPassenger.get();
+				FlightEntity flightEntity = optionalFlight.get();
+				flightEntity.addPassengers(passengerEntity);
+				this.flightRepository.save(flightEntity);
+				return FlightController.toDTO(flightEntity);
 			}
 		}
 		return FlightDTO.NULL_VALUE;
