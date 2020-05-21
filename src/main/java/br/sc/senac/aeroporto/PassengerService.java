@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,15 @@ public class PassengerService {
 	@PostMapping("/addpassenger")
 	public Long insertPassenger(@RequestBody final PassengerDTO passenger) {
 		return this.passengerController.insertPassenger(passenger);
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<List<PassengerDTO>> updatePassenger(@PathVariable final Long id, @RequestBody final PassengerDTO passenger) {
+		final List<PassengerDTO> oldPassengerNewPassenger = this.passengerController.updatePassenger(id, passenger);
+		if (oldPassengerNewPassenger.equals(PassengerDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(oldPassengerNewPassenger, HttpStatus.OK);
 	}
 
 }

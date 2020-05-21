@@ -83,7 +83,7 @@ public class FlightService {
 	
 	@PutMapping("/update/{id}")
 	public ResponseEntity<List<FlightDTO>> updateFlight(@PathVariable final Long id, @RequestBody final FlightDTO flight) {
-		final List<FlightDTO> oldFlightNewFlight = this.flightController.updadeFlight(id, flight);
+		final List<FlightDTO> oldFlightNewFlight = this.flightController.updateFlight(id, flight);
 		if (oldFlightNewFlight.equals(FlightDTO.NULL_VALUE)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

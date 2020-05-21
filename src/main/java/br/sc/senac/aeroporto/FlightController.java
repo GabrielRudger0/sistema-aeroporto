@@ -108,7 +108,7 @@ public class FlightController {
 		return flightEntity.getFlightId();
 	}
 	
-	List<FlightDTO> updadeFlight(final Long id, final FlightDTO flightDTO) {
+	List<FlightDTO> updateFlight(final Long id, final FlightDTO flightDTO) {
 		final Optional<FlightEntity> optinalFlight = this.flightRepository.findById(id);
 		
 		if (optinalFlight.isPresent()) {

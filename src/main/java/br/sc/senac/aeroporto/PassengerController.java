@@ -17,6 +17,12 @@ public class PassengerController {
 	PassengerController(final PassengerRepository passengerRepository) {
 		this.passengerRepository = passengerRepository;
 	}
+	
+	private static void updateEntityFromDTO(final PassengerDTO passengerDTO, final PassengerEntity passengerEntity) {
+		passengerEntity.setName(passengerDTO.getName());
+		passengerEntity.setEmail(passengerDTO.getEmail());
+		passengerEntity.setDate(passengerDTO.getBirthDate());
+	}
 
 	private static PassengerEntity toEntity(final PassengerDTO passengerDTO) {
 		final String name = passengerDTO.getName();
@@ -56,6 +62,24 @@ public class PassengerController {
 		final PassengerEntity passengerEntity = PassengerController.toEntity(passengerDTO);
 		this.passengerRepository.save(passengerEntity);
 		return passengerEntity.getPassengerId();
+	}
+	
+	List<PassengerDTO> updatePassenger(final Long id, final PassengerDTO passengerDTO) {
+		final Optional<PassengerEntity> optinalPassenger = this.passengerRepository.findById(id);
+
+		if (optinalPassenger.isPresent()) {
+			final List<PassengerDTO> oldPassengerNewPassenger = new ArrayList<>();
+
+			final PassengerEntity passengerEntity = optinalPassenger.get();
+			final PassengerDTO oldPassengerDTO = PassengerController.toDTO(passengerEntity);
+			PassengerController.updateEntityFromDTO(passengerDTO, passengerEntity);
+			this.passengerRepository.save(passengerEntity);
+			oldPassengerNewPassenger.add(PassengerController.toDTO(passengerEntity));
+			oldPassengerNewPassenger.add(oldPassengerDTO);
+
+			return oldPassengerNewPassenger;
+		}
+		return new ArrayList<PassengerDTO>();
 	}
 
 }
