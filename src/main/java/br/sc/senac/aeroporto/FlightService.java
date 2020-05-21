@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,7 @@ public class FlightService {
 		return new ResponseEntity<FlightDTO>(flight, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/remove/{id}")
 	public ResponseEntity<FlightDTO> removeFlight(@PathVariable final Long id) {
 		final FlightDTO removedFlight = this.flightController.removeFlight(id);
 		if (removedFlight.equals(FlightDTO.NULL_VALUE)) {
@@ -78,6 +79,15 @@ public class FlightService {
 	@PostMapping("/addflight")
 	public Long insertFlight(@RequestBody final FlightDTO flight) {
 		return this.flightController.insertFlight(flight);
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<List<FlightDTO>> updateFlight(@PathVariable final Long id, @RequestBody final FlightDTO flight) {
+		final List<FlightDTO> oldFlightNewFlight = this.flightController.updadeFlight(id, flight);
+		if (oldFlightNewFlight.equals(FlightDTO.NULL_VALUE)) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(oldFlightNewFlight, HttpStatus.OK);
 	}
 
 }

@@ -16,6 +16,13 @@ public class FlightController {
 		this.flightRepository = flightRepository;
 		this.passengerRepository = passengerRepository;
 	}
+	
+	private static void updateEntityFromDTO(final FlightDTO flightDTO, final FlightEntity flightEntity) {
+		flightEntity.setAirline(flightDTO.getAirline());
+		flightEntity.setDate_departure(flightDTO.getDate_departure());
+		flightEntity.setDate_back(flightDTO.getDate_back());
+		flightEntity.setDestination(flightDTO.getDestination());
+	}
 
 	private static FlightEntity toEntity(final FlightDTO flightDTO) {
 		final String airline = flightDTO.getAirline();
@@ -99,6 +106,24 @@ public class FlightController {
 		final FlightEntity flightEntity = FlightController.toEntity(flightDTO);
 		this.flightRepository.save(flightEntity);
 		return flightEntity.getFlightId();
+	}
+	
+	List<FlightDTO> updadeFlight(final Long id, final FlightDTO flightDTO) {
+		final Optional<FlightEntity> optinalFlight = this.flightRepository.findById(id);
+		
+		if (optinalFlight.isPresent()) {
+			final List<FlightDTO> oldFlightNewFlight = new ArrayList<>();
+			
+			final FlightEntity flightEntity = optinalFlight.get();
+			final FlightDTO oldFlightDTO = FlightController.toDTO(flightEntity);
+			FlightController.updateEntityFromDTO(flightDTO, flightEntity);
+			this.flightRepository.save(flightEntity);
+			oldFlightNewFlight.add(FlightController.toDTO(flightEntity));
+			oldFlightNewFlight.add(oldFlightDTO);
+			
+			return oldFlightNewFlight;
+		}
+		return new ArrayList<FlightDTO>();
 	}
 
 }
